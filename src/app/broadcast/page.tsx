@@ -10,7 +10,7 @@ export default async function BroadcastPage() {
   if (!activePlayer) {
     return (
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-4 px-6 text-center italic text-glow-dim">
-        <p>The farmhouse is dark. No traveler on the line.</p>
+        <p>Pick a traveler first.</p>
         <Link
           href="/"
           className="btn-glow rounded-full px-6 py-2 font-display text-xs font-semibold not-italic tracking-[0.15em]"
@@ -53,8 +53,7 @@ export default async function BroadcastPage() {
           Something on the air
         </h1>
         <p className="mt-2 italic text-glow-dim">
-          The old console radio in the farmhouse kitchen. Every quest you answer clears a little
-          more of the static.
+          Every quest you answer clears a little more of the static.
         </p>
       </div>
 

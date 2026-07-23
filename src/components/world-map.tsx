@@ -11,21 +11,21 @@ type MapLocation = {
 const LOCATIONS: MapLocation[] = [
   {
     name: "The Switchboard",
-    blurb: "Calls waiting on the line. Answer for stars.",
+    blurb: "Post and claim quests.",
     href: "/quests",
     left: "16%",
     top: "63%",
   },
   {
     name: "Circuit Breaker",
-    blurb: "The old wheel trips, the stars fall out.",
+    blurb: "Spin the wheels.",
     href: "/wheel",
     left: "58%",
     top: "66%",
   },
   {
     name: "Ohmstead",
-    blurb: "The radio's warm. Something's coming through.",
+    blurb: "The weekly broadcast.",
     href: "/broadcast",
     left: "87%",
     top: "60%",

@@ -209,7 +209,7 @@ export function NightBroadcast({
           </button>
         ) : (
           <p className="text-center text-sm italic text-glow-dim">
-            {`${completedThisWeek} of ${QUESTS_TO_TUNE} quests answered this week. The static only ever clears — it never comes back for what you've done.`}
+            {`${completedThisWeek} of ${QUESTS_TO_TUNE} quests answered this week.`}
           </p>
         )}
         {error && <p className="mt-2 text-center text-sm text-red-400">{error}</p>}

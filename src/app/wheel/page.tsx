@@ -11,7 +11,7 @@ export default async function WheelPage() {
   if (!activePlayer) {
     return (
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-4 px-6 text-center italic text-glow-dim">
-        <p>The breaker&apos;s thrown. No traveler on the line.</p>
+        <p>Pick a traveler first.</p>
         <Link href="/" className="btn-glow rounded-full px-6 py-2 font-display text-xs font-semibold not-italic tracking-[0.15em]">
           HEAD HOME
         </Link>
@@ -57,8 +57,7 @@ export default async function WheelPage() {
           Step right up
         </h1>
         <p className="mt-2 italic text-glow-dim">
-          Old wheels wired straight into the grid. The house wheel takes its toll — the rest
-          spin free, for when deciding is the hardest chore of all.
+          The house wheel costs stars to spin. The rest are free.
         </p>
       </div>
       <CarnivalLights />

@@ -246,14 +246,14 @@ function SpinningWheel({
 
       {!spinning && isRewards && points < SPIN_COST && (
         <p className="text-sm italic text-glow-dim">
-          The wheel wants {SPIN_COST} stars. Come back when your pockets shine.
+          {`You need ${SPIN_COST} stars to spin this wheel.`}
         </p>
       )}
       {segments.length < MIN_SEGMENTS && (
         <p className="text-sm italic text-glow-dim">
           {mode === "quests"
-            ? "Nothing on the board to choose from. Post some quests first."
-            : "This wheel needs at least two spokes. Tinker below."}
+            ? "No open quests to choose from."
+            : "This wheel needs at least two spokes."}
         </p>
       )}
       {error && <p className="text-sm text-red-400">{error}</p>}
@@ -275,9 +275,7 @@ function SpinningWheel({
             {result.label}
           </p>
           {result.bonusPoints > 0 && (
-            <p className="mt-1 text-sm italic text-gold">
-              The wheel pays out, for once. +{result.bonusPoints} stars
-            </p>
+            <p className="mt-1 text-sm italic text-gold">+{result.bonusPoints} stars</p>
           )}
           {mode === "quests" && (
             <Link

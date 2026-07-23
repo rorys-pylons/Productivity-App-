@@ -17,9 +17,7 @@ export default async function Home() {
           STARLINE
         </h1>
         <p className="text-lg italic leading-relaxed text-glow-dim">
-          Somewhere out past the water tower, the wires still hum.
-          <br />
-          Found a valley of your own, or walk in on a friend&apos;s invite link.
+          Found a valley of your own, or join one with a friend&apos;s invite link.
         </p>
         <form action={createValley} className="flex w-full gap-2">
           <input
@@ -43,7 +41,7 @@ export default async function Home() {
               type="submit"
               className="font-display text-[11px] font-semibold tracking-[0.2em] text-glow-dim transition hover:text-glow"
             >
-              BEEN HERE BEFORE? FOLLOW THE WIRE HOME →
+              BEEN HERE BEFORE? PICK BACK UP →
             </button>
           </form>
         )}
@@ -61,9 +59,7 @@ export default async function Home() {
           STARLINE
         </h1>
         <p className="text-lg italic leading-relaxed text-glow-dim">
-          The valley&apos;s lights are on. Pick a traveler above, or make yourself known.
-          <br />
-          No penalties, no shame — only stars.
+          Pick a traveler above, or make yourself known.
         </p>
         <form action={createPlayer} className="flex w-full gap-2">
           <input
@@ -93,9 +89,6 @@ export default async function Home() {
         <h1 className="mt-2 font-display text-3xl font-bold tracking-wide text-foreground">
           Evening, {activePlayer.name}
         </h1>
-        <p className="mt-2 italic text-glow-dim">
-          Follow the lines. Every light is somewhere to be.
-        </p>
       </div>
 
       <WorldMap />

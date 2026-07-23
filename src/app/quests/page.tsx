@@ -10,7 +10,7 @@ export default async function QuestsPage() {
   if (!activePlayer) {
     return (
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-4 px-6 text-center italic text-glow-dim">
-        <p>No traveler on the line.</p>
+        <p>Pick a traveler first.</p>
         <Link href="/" className="btn-glow rounded-full px-6 py-2 font-display text-xs font-semibold not-italic tracking-[0.15em]">
           HEAD HOME
         </Link>
@@ -30,10 +30,10 @@ export default async function QuestsPage() {
           THE SWITCHBOARD
         </p>
         <h1 className="mt-2 font-display text-3xl font-bold tracking-wide text-foreground">
-          The line&apos;s been busy, {activePlayer.name}
+          Work to be done, {activePlayer.name}
         </h1>
         <p className="mt-2 italic text-glow-dim">
-          The heavier the burden and the longer the road, the brighter the reward.
+          Longer and more dreaded quests pay more stars.
         </p>
       </div>
 

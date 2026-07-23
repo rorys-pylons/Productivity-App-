@@ -13,7 +13,7 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
   if (tasks.length === 0) {
     return (
       <p className="rounded-2xl border border-dashed border-stone-edge p-8 text-center italic text-glow-dim">
-        The line is quiet. Post a quest above and light it up.
+        No quests yet. Post one above.
       </p>
     );
   }
