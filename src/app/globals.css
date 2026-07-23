@@ -1,26 +1,371 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #081413;
+  --foreground: #dce8dd;
+  --moss: #16302a;
+  --moss-deep: #0c1f1b;
+  --glow: #a8e6c9;
+  --glow-dim: #5f9c82;
+  --gold: #d3b06a;
+  --stone: #101f1e;
+  --stone-edge: #24443a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-moss: var(--moss);
+  --color-moss-deep: var(--moss-deep);
+  --color-glow: var(--glow);
+  --color-glow-dim: var(--glow-dim);
+  --color-gold: var(--gold);
+  --color-stone: var(--stone);
+  --color-stone-edge: var(--stone-edge);
+  --font-display: var(--font-cinzel);
+  --font-serif: var(--font-garamond);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-garamond), Georgia, serif;
+}
+
+/* ---- World atmosphere ---- */
+
+.scene-sky {
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, #14332e 0%, transparent 60%),
+    radial-gradient(ellipse 80% 50% at 80% 100%, #0e2822 0%, transparent 55%),
+    linear-gradient(180deg, #050d0d 0%, #081413 40%, #0a1a17 100%);
+}
+
+.vignette {
+  background: radial-gradient(
+    ellipse 90% 80% at 50% 45%,
+    transparent 55%,
+    rgba(3, 8, 8, 0.55) 100%
+  );
+}
+
+@keyframes spore-drift {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: var(--spore-opacity, 0.7);
+  }
+  88% {
+    opacity: var(--spore-opacity, 0.7);
+  }
+  100% {
+    transform: translateY(-46vh) translateX(var(--spore-sway, 24px));
+    opacity: 0;
+  }
+}
+
+.spore {
+  position: absolute;
+  border-radius: 9999px;
+  background: var(--glow);
+  box-shadow: 0 0 6px 2px rgba(168, 230, 201, 0.35);
+  animation: spore-drift linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes mist-roll {
+  0% {
+    transform: translateX(-8%);
+  }
+  50% {
+    transform: translateX(8%);
+  }
+  100% {
+    transform: translateX(-8%);
+  }
+}
+
+.mist {
+  animation: mist-roll 60s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    text-shadow: 0 0 8px rgba(168, 230, 201, 0.22);
+  }
+  50% {
+    text-shadow: 0 0 14px rgba(168, 230, 201, 0.4);
+  }
+}
+
+.lumen-glow {
+  animation: glow-pulse 7s ease-in-out infinite;
+}
+
+/* Carved panel — the standard "surface" of the world */
+.panel {
+  background: linear-gradient(160deg, rgba(17, 38, 33, 0.78), rgba(7, 17, 15, 0.9));
+  border: 1px solid var(--stone-edge);
+  box-shadow:
+    inset 0 1px 0 rgba(168, 230, 201, 0.05),
+    0 14px 36px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+.panel-inset {
+  background: rgba(5, 13, 12, 0.55);
+  border: 1px solid rgba(36, 68, 58, 0.7);
+}
+
+.btn-glow {
+  background: linear-gradient(180deg, #1d4436, #12302a);
+  border: 1px solid rgba(168, 230, 201, 0.35);
+  color: var(--glow);
+  text-shadow: 0 0 8px rgba(168, 230, 201, 0.4);
+  box-shadow:
+    0 0 14px rgba(168, 230, 201, 0.12),
+    inset 0 1px 0 rgba(168, 230, 201, 0.15);
+  transition:
+    box-shadow 200ms ease,
+    border-color 200ms ease,
+    transform 150ms ease;
+}
+
+.btn-glow:hover:not(:disabled) {
+  border-color: rgba(168, 230, 201, 0.7);
+  box-shadow:
+    0 0 22px rgba(168, 230, 201, 0.28),
+    inset 0 1px 0 rgba(168, 230, 201, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-gold {
+  background: linear-gradient(180deg, #3a2f16, #2a2110);
+  border: 1px solid rgba(211, 176, 106, 0.45);
+  color: var(--gold);
+  text-shadow: 0 0 8px rgba(211, 176, 106, 0.4);
+  box-shadow: 0 0 14px rgba(211, 176, 106, 0.1);
+  transition:
+    box-shadow 200ms ease,
+    border-color 200ms ease,
+    transform 150ms ease;
+}
+
+.btn-gold:hover:not(:disabled) {
+  border-color: rgba(211, 176, 106, 0.8);
+  box-shadow: 0 0 24px rgba(211, 176, 106, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Dread radio chips */
+.chip {
+  border: 1px solid rgba(95, 156, 130, 0.35);
+  background: rgba(8, 20, 19, 0.5);
+  color: #9dbcaa;
+  transition: all 180ms ease;
+}
+
+.chip:hover {
+  border-color: rgba(168, 230, 201, 0.5);
+}
+
+.chip:has(:checked) {
+  border-color: rgba(211, 176, 106, 0.7);
+  background: rgba(58, 47, 22, 0.45);
+  color: var(--gold);
+  box-shadow: 0 0 12px rgba(211, 176, 106, 0.15);
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+  color: rgba(157, 188, 170, 0.45);
+}
+
+/* ---- World map nodes ---- */
+
+.map-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes node-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 10px 2px rgba(168, 230, 201, 0.45),
+      0 0 30px 8px rgba(168, 230, 201, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 0 16px 4px rgba(168, 230, 201, 0.7),
+      0 0 44px 14px rgba(168, 230, 201, 0.2);
+  }
+}
+
+.map-node-dot {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #d7f5e6, #a8e6c9 55%, #5f9c82);
+  animation: node-pulse 3.2s ease-in-out infinite;
+  transition: transform 250ms ease;
+}
+
+.map-node:hover .map-node-dot {
+  transform: scale(1.35);
+}
+
+.map-node-dot-locked {
+  background: radial-gradient(circle at 35% 30%, #6a7d73, #45564d 60%, #2c3a33);
+  animation: none;
+  box-shadow: 0 0 8px 2px rgba(120, 150, 135, 0.2);
+}
+
+/* ---- World texture: ferris wheel, heat lightning, moon ---- */
+
+@keyframes fw-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fw-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: fw-spin 40s linear infinite;
+}
+
+@keyframes heat-flash-a {
+  0%, 86%, 100% { opacity: 0; }
+  88% { opacity: 0.38; }
+  90% { opacity: 0.06; }
+  92% { opacity: 0.26; }
+  94% { opacity: 0; }
+}
+
+@keyframes heat-flash-b {
+  0%, 64%, 100% { opacity: 0; }
+  66% { opacity: 0.3; }
+  67.5% { opacity: 0.05; }
+  69% { opacity: 0.2; }
+  71% { opacity: 0; }
+}
+
+.heat-flash-a {
+  animation: heat-flash-a 9s linear infinite;
+}
+
+.heat-flash-b {
+  animation: heat-flash-b 13s linear infinite;
+}
+
+@keyframes map-cloud-drift {
+  from {
+    transform: translateX(-140px);
+  }
+  to {
+    transform: translateX(320px);
+  }
+}
+
+.map-cloud {
+  animation: map-cloud-drift linear infinite;
+}
+
+/* ---- Circuit Breaker marquee bulbs ---- */
+
+@keyframes bulb-glow {
+  0%,
+  100% {
+    opacity: 0.3;
+    box-shadow: 0 0 3px 1px rgba(211, 176, 106, 0.15);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 8px 3px rgba(211, 176, 106, 0.4);
+  }
+}
+
+.marquee-bulb {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  animation: bulb-glow ease-in-out infinite;
+}
+
+@keyframes hub-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 16px rgba(168, 230, 201, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 30px 6px rgba(168, 230, 201, 0.55);
+  }
+}
+
+.hub-pulse {
+  animation: hub-pulse 0.7s ease-in-out infinite;
+}
+
+@keyframes string-bulb {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.string-bulb {
+  animation: string-bulb 5.6s ease-in-out infinite;
+  filter: drop-shadow(0 0 3px rgba(228, 220, 184, 0.35));
+}
+
+/* A bulb on its way out — mostly dark, sputters awake */
+@keyframes bulb-dying {
+  0%, 100% { opacity: 0.08; }
+  71% { opacity: 0.08; }
+  72% { opacity: 0.55; }
+  74% { opacity: 0.12; }
+  76% { opacity: 0.4; }
+  78% { opacity: 0.08; }
+}
+
+.bulb-dying {
+  animation: bulb-dying 7.3s steps(1, end) infinite;
+}
+
+/* ---- Cooling towers on the horizon ---- */
+
+@keyframes steam-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 0.16;
+  }
+  100% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+}
+
+.steam {
+  animation: steam-rise 18s linear infinite;
+}
+
+@keyframes beacon-blink {
+  0%, 91%, 100% { opacity: 0.12; }
+  93%, 96% { opacity: 0.9; }
+}
+
+.beacon {
+  animation: beacon-blink 6s linear infinite;
 }
