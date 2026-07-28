@@ -18,10 +18,18 @@ export default async function QuestsPage() {
     );
   }
 
-  const tasks = await db.task.findMany({
-    where: { playerId: activePlayer.id },
-    orderBy: { createdAt: "desc" },
-  });
+  const [tasks, valleyPlayers] = await Promise.all([
+    db.task.findMany({
+      where: { playerId: activePlayer.id },
+      orderBy: { createdAt: "desc" },
+      include: { createdBy: { select: { id: true, name: true } } },
+    }),
+    db.player.findMany({
+      where: { valleyId: activePlayer.valleyId },
+      orderBy: { createdAt: "asc" },
+      select: { id: true, name: true },
+    }),
+  ]);
 
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-6 py-12">
@@ -37,8 +45,8 @@ export default async function QuestsPage() {
         </p>
       </div>
 
-      <AddTaskForm />
-      <TaskList tasks={tasks} />
+      <AddTaskForm players={valleyPlayers} activePlayerId={activePlayer.id} />
+      <TaskList tasks={tasks} activePlayerId={activePlayer.id} />
     </main>
   );
 }

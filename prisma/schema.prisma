@@ -29,7 +29,8 @@ model Player {
   color      String      @default("#6366f1")
   points     Int         @default(0)
   createdAt  DateTime    @default(now())
-  tasks      Task[]
+  tasks      Task[]      @relation("TaskOwner")
+  sentTasks  Task[]      @relation("TaskSender")
   spins      SpinLog[]
   broadcasts Broadcast[]
 
@@ -39,7 +40,9 @@ model Player {
 model Task {
   id          String    @id @default(cuid())
   playerId    String
-  player      Player    @relation(fields: [playerId], references: [id])
+  player      Player    @relation("TaskOwner", fields: [playerId], references: [id])
+  createdById String?
+  createdBy   Player?   @relation("TaskSender", fields: [createdById], references: [id])
   title       String
   minutes     Int
   dread       Int

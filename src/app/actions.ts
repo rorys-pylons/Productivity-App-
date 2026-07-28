@@ -93,11 +93,21 @@ export async function addTask(formData: FormData) {
   const dread = Number(formData.get("dread") ?? 3);
   if (!title || minutes <= 0) return;
 
+  // Quests can be posted to any traveler in the same valley
+  let assigneeId = String(formData.get("assigneeId") ?? "") || player.id;
+  if (assigneeId !== player.id) {
+    const assignee = await db.player.findUnique({ where: { id: assigneeId } });
+    if (!assignee || assignee.valleyId !== player.valleyId) {
+      assigneeId = player.id;
+    }
+  }
+
   const points = calculateTaskPoints(minutes, dread);
 
   await db.task.create({
     data: {
-      playerId: player.id,
+      playerId: assigneeId,
+      createdById: player.id,
       title,
       minutes,
       dread,

@@ -2,11 +2,19 @@ import { ClaimButton } from "@/components/claim-button";
 import { DREAD_LEVELS } from "@/lib/points";
 import type { Task } from "@/generated/prisma/client";
 
+type TaskWithSender = Task & { createdBy: { id: string; name: string } | null };
+
 function dreadLabel(dread: number) {
   return DREAD_LEVELS.find((l) => l.value === dread)?.label ?? "A grim chore";
 }
 
-export function TaskList({ tasks }: { tasks: Task[] }) {
+export function TaskList({
+  tasks,
+  activePlayerId,
+}: {
+  tasks: TaskWithSender[];
+  activePlayerId: string;
+}) {
   const pending = tasks.filter((t) => !t.completed);
   const completed = tasks.filter((t) => t.completed);
 
@@ -28,7 +36,14 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
               className="panel flex items-center justify-between gap-4 rounded-xl px-5 py-4"
             >
               <div>
-                <p className="text-lg text-foreground">{task.title}</p>
+                <p className="flex items-center gap-2 text-lg text-foreground">
+                  {task.title}
+                  {task.createdBy && task.createdBy.id !== activePlayerId && (
+                    <span className="rounded-full border border-glow-dim/40 px-2 py-0.5 font-display text-[10px] font-semibold tracking-[0.12em] text-glow-dim">
+                      FROM {task.createdBy.name.toUpperCase()}
+                    </span>
+                  )}
+                </p>
                 <p className="text-sm italic text-glow-dim">
                   {task.minutes} min · {dreadLabel(task.dread)}
                 </p>

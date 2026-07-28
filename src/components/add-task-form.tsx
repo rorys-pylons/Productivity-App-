@@ -1,7 +1,13 @@
 import { addTask } from "@/app/actions";
 import { DREAD_LEVELS } from "@/lib/points";
 
-export function AddTaskForm() {
+export function AddTaskForm({
+  players,
+  activePlayerId,
+}: {
+  players: { id: string; name: string }[];
+  activePlayerId: string;
+}) {
   return (
     <form action={addTask} className="panel flex flex-col gap-5 rounded-2xl p-6">
       <h2 className="font-display text-sm font-semibold tracking-[0.25em] text-glow-dim">
@@ -34,6 +40,25 @@ export function AddTaskForm() {
           className="panel-inset w-full rounded-lg px-3.5 py-2.5 text-base text-foreground focus:border-glow-dim focus:outline-none"
         />
       </div>
+
+      {players.length > 1 && (
+        <div>
+          <label className="mb-1.5 block font-display text-[11px] font-semibold tracking-[0.2em] text-glow-dim/80">
+            FOR
+          </label>
+          <select
+            name="assigneeId"
+            defaultValue={activePlayerId}
+            className="panel-inset w-full rounded-lg px-3.5 py-2.5 text-base text-foreground focus:border-glow-dim focus:outline-none"
+          >
+            {players.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.id === activePlayerId ? `${p.name} (me)` : p.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <fieldset>
         <legend className="mb-1.5 block font-display text-[11px] font-semibold tracking-[0.2em] text-glow-dim/80">
