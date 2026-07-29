@@ -17,7 +17,7 @@ export default async function Home() {
           STARLINE
         </h1>
         <p className="text-lg italic leading-relaxed text-glow-dim">
-          Found a valley of your own, or join one with a friend&apos;s invite link.
+          Find a valley of your own, or join one with a friend&apos;s invite link.
         </p>
         <form action={createValley} className="flex w-full gap-2">
           <input
@@ -32,7 +32,7 @@ export default async function Home() {
             type="submit"
             className="btn-glow rounded-full px-6 py-2.5 font-display text-sm font-semibold tracking-[0.15em]"
           >
-            FOUND
+            FIND
           </button>
         </form>
         {hasLegacyPlayer && (
