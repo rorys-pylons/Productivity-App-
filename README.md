@@ -1,6 +1,6 @@
-# STARLINE
+# Productivity Pylons
 
-A southern-gothic productivity world. Every chore lights the wire — no penalties, only stars.
+A southern-gothic productivity world (in-world name: Starline). Every chore lights the wire — no penalties, only stars.
 
 Out in **Powerline Valley**, three places sit on the line:
 

@@ -26,7 +26,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Starline",
+  title: "Productivity Pylons",
   description:
     "A southern-gothic productivity world. Every chore lights the wire — no penalties, only stars.",
 };
