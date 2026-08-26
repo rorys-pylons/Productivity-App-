@@ -44,7 +44,7 @@ export default async function BroadcastPage() {
   const pastTransmissions = log.filter((b) => b.week !== week);
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-12">
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-6 py-12">
       <div className="text-center">
         <p className="font-display text-[11px] font-semibold tracking-[0.3em] text-glow-dim">
           OHMSTEAD

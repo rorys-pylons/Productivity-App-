@@ -48,7 +48,7 @@ export default async function WheelPage() {
   const quests = questRows.map((q) => ({ id: q.id, title: q.title, points: q.points }));
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center gap-8 px-6 py-12">
+    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center gap-8 px-6 py-12">
       <div className="text-center">
         <p className="font-display text-[11px] font-semibold tracking-[0.3em] text-glow-dim">
           CIRCUIT BREAKER
@@ -57,7 +57,7 @@ export default async function WheelPage() {
           Step right up
         </h1>
         <p className="mt-2 italic text-glow-dim">
-          The house wheel costs stars to spin. The rest are free.
+          The reward wheel costs stars to spin. The rest are free.
         </p>
       </div>
       <CarnivalLights />

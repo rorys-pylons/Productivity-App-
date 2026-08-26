@@ -34,7 +34,7 @@ const LOCATIONS: MapLocation[] = [
 
 export function WorldMap() {
   return (
-    <div className="relative mx-auto w-full max-w-5xl" style={{ aspectRatio: "1200 / 640" }}>
+    <div className="relative mx-auto w-full max-w-7xl" style={{ aspectRatio: "1200 / 640" }}>
       {/* Heat lightning, far off — paints behind the SVG hills */}
       <div
         aria-hidden

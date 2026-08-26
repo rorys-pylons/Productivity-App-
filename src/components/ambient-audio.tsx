@@ -164,9 +164,10 @@ export function AmbientAudio() {
         const gain = nodesRef.current.master.gain;
         gain.cancelScheduledValues(ctx.currentTime);
         gain.setValueAtTime(gain.value, ctx.currentTime);
-        gain.linearRampToValueAtTime(0, ctx.currentTime + 30);
+        // A few milliseconds, not zero — an instant value change can click/pop
+        gain.linearRampToValueAtTime(0, ctx.currentTime + 0.03);
       }
-      suspendTimer.current = window.setTimeout(() => void getAudioContext().suspend(), 31000);
+      suspendTimer.current = window.setTimeout(() => void getAudioContext().suspend(), 100);
       setOn(false);
     }
   }
