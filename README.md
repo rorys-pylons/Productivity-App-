@@ -31,6 +31,13 @@ invite link (`/v/<code>`, copy it with the INVITE button in the header). Everyon
 shares that valley's players, quests, wheels, and broadcasts — and sees nothing of any other
 valley.
 
+## Live address
+
+**https://www.powerlinevalley.com** — `powerlinevalley.com` redirects there. Registered and
+DNS-hosted through Vercel, so the records manage themselves. The older
+`productivity-app-pylons.vercel.app` address still works, but some networks can't resolve
+`*.vercel.app`, which is why the app has its own domain. `git push` to `main` auto-deploys.
+
 ## Deploying (Vercel + Turso)
 
 The code auto-switches databases: local dev uses the SQLite file; when `TURSO_DATABASE_URL`
