@@ -4,9 +4,13 @@ type MapLocation = {
   name: string;
   blurb: string;
   href: string | null;
+  // Leaves this site for a separate app on its own subdomain
+  external?: boolean;
   left: string;
   top: string;
 };
+
+const LIBRARY_URL = "https://library.powerlinevalley.com";
 
 const LOCATIONS: MapLocation[] = [
   {
@@ -15,6 +19,14 @@ const LOCATIONS: MapLocation[] = [
     href: "/quests",
     left: "16%",
     top: "63%",
+  },
+  {
+    name: "The Library",
+    blurb: "Your reading list.",
+    href: LIBRARY_URL,
+    external: true,
+    left: "33%",
+    top: "69%",
   },
   {
     name: "Circuit Breaker",
@@ -303,30 +315,67 @@ export function WorldMap() {
           <path d="M48,0 Q30,-60 -95,-172" stroke="rgba(168,230,201,0.18)" strokeWidth="1" fill="none" />
         </g>
 
+        {/* ---- The Library — columns, a lit reading-room window, a lamp by the steps ---- */}
+        <g transform="translate(335, 398)">
+          <g fill="#0c211b">
+            <rect x="8" y="84" width="80" height="6" />
+            <rect x="14" y="78" width="68" height="6" />
+            <rect x="14" y="36" width="68" height="42" />
+            <path d="M6,38 L48,12 L90,38 Z" />
+          </g>
+          {/* columns */}
+          <g fill="#071310">
+            {[22, 38, 54, 70].map((x) => (
+              <rect key={x} x={x} y="40" width="6" height="38" />
+            ))}
+          </g>
+          {/* lit windows between the columns, and the round window in the pediment */}
+          <rect x="31" y="48" width="6" height="12" fill="#d3b06a" opacity="0.5" />
+          <rect x="59" y="48" width="6" height="12" fill="#d3b06a" opacity="0.35" />
+          <circle cx="48" cy="28" r="4" fill="#d3b06a" opacity="0.65" />
+          <rect x="44" y="58" width="8" height="20" fill="#071310" />
+          {/* reading lamp at the foot of the steps */}
+          <path d="M1,90 L1,60" stroke="#0c211b" strokeWidth="2" />
+          <circle cx="1" cy="58" r="2.5" fill="#d3b06a" opacity="0.85" />
+          <ellipse cx="30" cy="72" rx="24" ry="6" fill="#d3b06a" opacity="0.06" />
+        </g>
+
         {/* Glow pools under the location nodes */}
         <ellipse cx="195" cy="470" rx="70" ry="14" fill="url(#nodeglow)" opacity="0.35" />
+        <ellipse cx="383" cy="492" rx="60" ry="12" fill="url(#nodeglow)" opacity="0.3" />
         <ellipse cx="700" cy="512" rx="90" ry="16" fill="url(#nodeglow)" opacity="0.35" />
         <ellipse cx="1048" cy="505" rx="70" ry="14" fill="url(#nodeglow)" opacity="0.2" />
       </svg>
 
       {/* Clickable location nodes */}
-      {LOCATIONS.map((loc) =>
-        loc.href ? (
-          <Link
-            key={loc.name}
-            href={loc.href}
-            className="map-node group absolute -translate-x-1/2 -translate-y-1/2"
-            style={{ left: loc.left, top: loc.top }}
-          >
+      {LOCATIONS.map((loc) => {
+        const body = (
+          <>
             <span className="map-node-dot" />
             <span className="mt-2 block whitespace-nowrap text-center">
               <span className="block font-display text-xs font-bold tracking-[0.2em] text-glow">
                 {loc.name.toUpperCase()}
+                {loc.external && <span aria-hidden> ↗</span>}
               </span>
               <span className="mt-0.5 block text-sm italic text-glow-dim opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 {loc.blurb}
               </span>
             </span>
+          </>
+        );
+        const nodeClass = "map-node group absolute -translate-x-1/2 -translate-y-1/2";
+        const nodeStyle = { left: loc.left, top: loc.top };
+
+        if (loc.href && loc.external) {
+          return (
+            <a key={loc.name} href={loc.href} className={nodeClass} style={nodeStyle}>
+              {body}
+            </a>
+          );
+        }
+        return loc.href ? (
+          <Link key={loc.name} href={loc.href} className={nodeClass} style={nodeStyle}>
+            {body}
           </Link>
         ) : (
           <div
@@ -342,8 +391,8 @@ export function WorldMap() {
               <span className="mt-0.5 block text-xs italic text-glow-dim">{loc.blurb}</span>
             </span>
           </div>
-        )
-      )}
+        );
+      })}
     </div>
   );
 }
