@@ -58,7 +58,8 @@ export default async function RootLayout({
           activePlayer={activePlayer}
           valley={valley ? { name: valley.name, inviteCode: valley.inviteCode } : null}
         />
-        {children}
+        {/* the map's side wings run past the viewport edges; clip them so the page never scrolls sideways */}
+        <div className="flex flex-1 flex-col overflow-x-clip">{children}</div>
       </body>
     </html>
   );

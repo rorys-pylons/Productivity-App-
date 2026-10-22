@@ -1,4 +1,14 @@
 import Link from "next/link";
+import {
+  FarScenery,
+  Hills,
+  LEFT_PULSES,
+  MAIN_PULSES,
+  PowerLines,
+  RIGHT_PULSES,
+  Sky,
+} from "@/components/valley-scenery";
+import { Quarry } from "@/components/quarry";
 
 type MapLocation = {
   name: string;
@@ -11,14 +21,18 @@ type MapLocation = {
 };
 
 const LIBRARY_URL = "https://library.powerlinevalley.com";
+const STUDY_URL = "https://study.powerlinevalley.com";
+// Flip to true once study.powerlinevalley.com is live; until then the quarry shows as "opening soon"
+const STUDY_LIVE = false;
 
+// The map is drawn in a 1200 x 720 space; node positions below are percentages of it.
 const LOCATIONS: MapLocation[] = [
   {
     name: "The Switchboard",
     blurb: "Post and claim quests.",
     href: "/quests",
     left: "16%",
-    top: "63%",
+    top: "56%",
   },
   {
     name: "The Library",
@@ -26,36 +40,50 @@ const LOCATIONS: MapLocation[] = [
     href: LIBRARY_URL,
     external: true,
     left: "33%",
-    top: "69%",
+    top: "61.3%",
   },
   {
     name: "Circuit Breaker",
     blurb: "Spin the wheels.",
     href: "/wheel",
     left: "58%",
-    top: "66%",
+    top: "58.7%",
   },
   {
     name: "Ohmstead",
     blurb: "The weekly broadcast.",
     href: "/broadcast",
     left: "87%",
-    top: "60%",
+    top: "53.3%",
+  },
+  {
+    // Sits on the lamp post at the quarry's left lip (736, 496 in map space)
+    name: "The Quarry",
+    blurb: STUDY_LIVE ? "Dive in. Study." : "Opening soon.",
+    href: STUDY_LIVE ? STUDY_URL : null,
+    external: STUDY_LIVE,
+    left: "61.3%",
+    top: "68.9%",
   },
 ];
 
+// Fade the scene out at the top and bottom only, so it runs edge to edge sideways.
+const FADE =
+  "linear-gradient(to bottom, transparent 0%, black 9%, black 88%, transparent 100%)";
+const fadeStyle = { maskImage: FADE, WebkitMaskImage: FADE };
+
 export function WorldMap() {
   return (
-    <div className="relative mx-auto w-full max-w-7xl" style={{ aspectRatio: "1200 / 640" }}>
+    <div className="relative mx-auto w-full max-w-7xl" style={{ aspectRatio: "1200 / 720" }}>
       {/* Heat lightning, far off — paints behind the SVG hills */}
       <div
         aria-hidden
         className="heat-flash-a pointer-events-none absolute"
         style={{
           left: "6%",
-          bottom: "30%",
+          bottom: "26.7%",
           width: "40%",
-          height: "42%",
+          height: "37.3%",
           background:
             "radial-gradient(ellipse at 50% 100%, rgba(196,224,210,0.55), rgba(168,230,201,0.1) 55%, transparent 75%)",
         }}
@@ -65,24 +93,46 @@ export function WorldMap() {
         className="heat-flash-b pointer-events-none absolute"
         style={{
           right: "8%",
-          bottom: "32%",
+          bottom: "28.4%",
           width: "34%",
-          height: "38%",
+          height: "33.8%",
           background:
             "radial-gradient(ellipse at 50% 100%, rgba(211,176,106,0.4), rgba(211,176,106,0.08) 55%, transparent 75%)",
         }}
       />
+      {/* Wings: the same ground and powerlines carried out past each side of the map,
+          at the same scale, so the scene fills the whole screen width. */}
       <svg
-        className="absolute inset-0 h-full w-full"
-        viewBox="0 0 1200 640"
+        className="pointer-events-none absolute top-0 h-full w-full"
+        style={{ right: "100%", ...fadeStyle }}
+        viewBox="-1200 0 1200 720"
         preserveAspectRatio="xMidYMid meet"
         aria-hidden
-        style={{
-          maskImage:
-            "radial-gradient(ellipse 72% 68% at 50% 48%, black 55%, rgba(0,0,0,0.5) 78%, transparent 98%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 72% 68% at 50% 48%, black 55%, rgba(0,0,0,0.5) 78%, transparent 98%)",
-        }}
+      >
+        <Sky />
+        <FarScenery side="left" />
+        <Hills />
+        <PowerLines idp="l" pulses={LEFT_PULSES} />
+      </svg>
+      <svg
+        className="pointer-events-none absolute top-0 h-full w-full"
+        style={{ left: "100%", ...fadeStyle }}
+        viewBox="1200 0 1200 720"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden
+      >
+        <Sky />
+        <FarScenery side="right" />
+        <Hills />
+        <PowerLines idp="r" pulses={RIGHT_PULSES} />
+      </svg>
+
+      <svg
+        className="absolute inset-0 h-full w-full"
+        viewBox="0 0 1200 720"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden
+        style={fadeStyle}
       >
         {/* Dusk band on the horizon */}
         <defs>
@@ -96,7 +146,7 @@ export function WorldMap() {
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
         </defs>
-        <rect x="0" y="280" width="1200" height="200" fill="url(#duskband)" />
+        <Sky />
 
         {/* Low moon with drifting clouds */}
         <g>
@@ -152,16 +202,11 @@ export function WorldMap() {
           <circle className="beacon" cx="469" cy="349" r="2" fill="#b3402e" />
         </g>
 
-        {/* Far hills */}
-        <path
-          d="M0,470 C150,430 280,450 420,435 C560,420 700,445 840,430 C980,415 1100,440 1200,425 L1200,640 L0,640 Z"
-          fill="#0a1c17"
-        />
-        {/* Near ground */}
-        <path
-          d="M0,520 C180,495 340,515 520,505 C700,495 880,515 1050,505 C1120,501 1170,508 1200,505 L1200,640 L0,640 Z"
-          fill="#071310"
-        />
+        {/* Far hills and near ground — shared with the side wings */}
+        <Hills />
+
+        {/* The flooded quarry, cut into the foreground */}
+        <Quarry />
 
         {/* Water tower, background left */}
         <g fill="#0c211b" opacity="0.9">
@@ -174,60 +219,8 @@ export function WorldMap() {
         </g>
         <circle cx="80" cy="294" r="2" fill="#d3b06a" opacity="0.7" />
 
-        {/* ---- Pylons ---- */}
-        {[
-          { x: 200, top: 220 },
-          { x: 560, top: 200 },
-          { x: 920, top: 185 },
-        ].map((p, i) => (
-          <g key={i} stroke="#122a22" strokeWidth="7" strokeLinecap="round" fill="none">
-            {/* legs */}
-            <path d={`M${p.x - 34},${520 - i * 6} L${p.x - 8},${p.top + 26}`} />
-            <path d={`M${p.x + 34},${520 - i * 6} L${p.x + 8},${p.top + 26}`} />
-            {/* mast */}
-            <path d={`M${p.x},${p.top} L${p.x},${p.top + 40}`} />
-            {/* crossarms */}
-            <path d={`M${p.x - 46},${p.top + 26} L${p.x + 46},${p.top + 26}`} />
-            <path d={`M${p.x - 30},${p.top + 8} L${p.x + 30},${p.top + 8}`} />
-            {/* lattice */}
-            <path
-              d={`M${p.x - 26},${p.top + 60} L${p.x + 22},${p.top + 110} M${p.x + 26},${p.top + 60} L${p.x - 22},${p.top + 110} M${p.x - 30},${p.top + 130} L${p.x + 26},${p.top + 190} M${p.x + 30},${p.top + 130} L${p.x - 26},${p.top + 190}`}
-              strokeWidth="4"
-            />
-          </g>
-        ))}
-
-        {/* ---- Wires (catenary sags) ---- */}
-        <g stroke="rgba(168,230,201,0.32)" strokeWidth="1.5" fill="none">
-          <path id="wire0" d="M-60,290 Q70,320 154,246" />
-          <path id="wire1" d="M154,246 Q380,330 514,226" />
-          <path id="wire2" d="M514,226 Q740,320 874,211" />
-          <path id="wire3" d="M874,211 Q1080,290 1260,240" />
-          {/* second, fainter wire */}
-          <g opacity="0.5">
-            <path d="M-60,270 Q70,300 170,228" />
-            <path d="M170,228 Q380,308 530,208" />
-            <path d="M530,208 Q740,300 890,193" />
-            <path d="M890,193 Q1080,270 1260,222" />
-          </g>
-        </g>
-
-        {/* Pulses of light traveling the line */}
-        <circle r="3" fill="#a8e6c9" opacity="0.9">
-          <animateMotion dur="7s" repeatCount="indefinite" begin="0s">
-            <mpath href="#wire1" />
-          </animateMotion>
-        </circle>
-        <circle r="2.5" fill="#a8e6c9" opacity="0.7">
-          <animateMotion dur="8s" repeatCount="indefinite" begin="3.5s">
-            <mpath href="#wire2" />
-          </animateMotion>
-        </circle>
-        <circle r="2" fill="#d3b06a" opacity="0.7">
-          <animateMotion dur="10s" repeatCount="indefinite" begin="1.5s">
-            <mpath href="#wire3" />
-          </animateMotion>
-        </circle>
+        {/* Pylons, wires and light pulses — shared with the side wings */}
+        <PowerLines idp="m" pulses={MAIN_PULSES} />
 
         {/* Little birds on the wire */}
         <g fill="#0e241d">

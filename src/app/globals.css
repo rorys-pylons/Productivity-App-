@@ -369,3 +369,45 @@ input[type="number"]::placeholder {
 .beacon {
   animation: beacon-blink 6s linear infinite;
 }
+
+/* ---- The Quarry ---- */
+
+@keyframes q-bob {
+  from { transform: translateY(0); }
+  to { transform: translateY(-6px); }
+}
+@keyframes q-pulse {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.07, 0.9); }
+}
+@keyframes q-sway {
+  from { transform: skewX(-5deg); }
+  to { transform: skewX(5deg); }
+}
+@keyframes q-shimmer {
+  0%, 100% { opacity: 0.16; }
+  50% { opacity: 0.42; }
+}
+@keyframes q-bubble {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 0.55; }
+  100% { transform: translateY(-38px); opacity: 0; }
+}
+
+.q-jelly { animation: q-bob 7s ease-in-out infinite alternate; }
+.q-bell {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: q-pulse 3.6s ease-in-out infinite;
+}
+.q-tent {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: q-sway 4.8s ease-in-out infinite alternate;
+}
+.q-shimmer { animation: q-shimmer 6s ease-in-out infinite; }
+.q-bubble { animation: q-bubble 7s ease-in infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .q-jelly, .q-bell, .q-tent, .q-shimmer, .q-bubble { animation: none; }
+}
